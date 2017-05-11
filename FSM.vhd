@@ -42,47 +42,52 @@ end FSM;
 
 architecture Behavioral of FSM is
 -- We have to represent 5 states (at least 3 bits) 
-signal state : STD_LOGIC_VECTOR (4 downto 0) :=(others=>'0');
+signal state : STD_LOGIC_VECTOR (4 downto 0) := "00001";
 begin 
 	process(I_FSM_CLK,I_FSM_EN,I_FSM_INST)
 	
 	begin
 	if (rising_edge(I_FSM_CLK) and I_FSM_EN='1') then 
-		if(state ="00000") then
+		-- If the instruction out of the ROM is 0x0000 then we are done
+		if (I_FSM_INST = x"00000000") then
+			state <= "00000";	-- Done
+		end if ;
+		-- Else we continue
+		if(state ="00001") then
 			O_FSM_IF <= '1'; -- Fetch 
 			O_FSM_ID <= '0'; 
-			O_FSM_EX <= '0';
-			O_FSM_ME <= '0';
-			O_FSM_WB <= '0';
-			state <= "00001";
-		elsif(state ="00001") then
-			O_FSM_IF <= '0'; 
-			O_FSM_ID <= '1'; -- Read register rd or rs
 			O_FSM_EX <= '0';
 			O_FSM_ME <= '0';
 			O_FSM_WB <= '0';
 			state <= "00010";
 		elsif(state ="00010") then
 			O_FSM_IF <= '0'; 
-			O_FSM_ID <= '0'; 
-			O_FSM_EX <= '1';-- Instruction is known, so function is executed
+			O_FSM_ID <= '1'; -- Read register rd or rs
+			O_FSM_EX <= '0';
 			O_FSM_ME <= '0';
 			O_FSM_WB <= '0';
 			state <= "00100";
 		elsif(state ="00100") then
 			O_FSM_IF <= '0'; 
 			O_FSM_ID <= '0'; 
-			O_FSM_EX <= '0';
-			O_FSM_ME <= '1'; -- Memory is accessed based on address computed before
+			O_FSM_EX <= '1';-- Instruction is known, so function is executed
+			O_FSM_ME <= '0';
 			O_FSM_WB <= '0';
 			state <= "01000";
 		elsif(state ="01000") then
 			O_FSM_IF <= '0'; 
 			O_FSM_ID <= '0'; 
 			O_FSM_EX <= '0';
+			O_FSM_ME <= '1'; -- Memory is accessed based on address computed before
+			O_FSM_WB <= '0';
+			state <= "10000";
+		elsif(state ="10000") then
+			O_FSM_IF <= '0'; 
+			O_FSM_ID <= '0'; 
+			O_FSM_EX <= '0';
 			O_FSM_ME <= '0'; 
 			O_FSM_WB <= '1'; -- Write value from memory in the register
-			state <= "00000";		
+			state <= "00001";		
 		end if; 
 	end if;	
 	end process;
