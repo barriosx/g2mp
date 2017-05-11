@@ -22,7 +22,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
---use IEEE.NUMERIC_STD.ALL;
+use IEEE.NUMERIC_STD.ALL;
 
 -- Uncomment the following library declaration if instantiating
 -- any Xilinx primitives in this code.
@@ -45,18 +45,18 @@ entity REG is
 end REG;
 
 architecture Behavioral of REG is
+    signal registr : reg32 := (others => "00000000000000000000000000000000") ; 
 begin
 	process(I_REG_EN,I_REG_WE)
-    variable registr : reg32; 
     begin
       if I_REG_EN = '1' then
         if I_REG_WE = '1' then
-            registr(I_REG_SEL_RD):= I_REG_DATA_RD;        
+            registr(to_integer(unsigned(I_REG_SEL_RD)))<= I_REG_DATA_RD;        
         else
-            O_REG_DATA_A <= registr(I_REG_SEL_RS)(31 downto 0);
-            O_REG_DATA_B <= registr(I_REG_SEL_RD)(31 downto 0);
-        end if ;
-      end if ;
+            O_REG_DATA_A <= registr(to_integer(unsigned(I_REG_SEL_RS)))(31 downto 0);
+            O_REG_DATA_B <= registr(to_integer(unsigned(I_REG_SEL_RT)))(31 downto 0);
+        end if;
+      end if;
     end process;
 end Behavioral;
 
