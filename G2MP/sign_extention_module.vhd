@@ -43,9 +43,18 @@ begin
 	process (I_EXT_16)
 	variable dummy : std_logic_vector (31 downto 0);
 	begin
-		dummy := (others => '0');
-		dummy (15 downto 0) := I_EXT_16;
-		O_EXT_32 <= dummy (31 downto 0);
+		
+		if I_EXT_16(15) = '0' then
+			dummy := (others => '0');
+			dummy (15 downto 0) := I_EXT_16;
+			O_EXT_32 <= dummy (31 downto 0);
+		end if;
+		
+		if I_EXT_16(15) = '1' then
+			dummy := (others => '1');
+			dummy (15 downto 0) := I_EXT_16;
+			O_EXT_32 <= dummy (31 downto 0);
+		end if;
 		
 	end process;
 
