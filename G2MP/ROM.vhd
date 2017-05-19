@@ -11,7 +11,7 @@ ENTITY InstructionMemory IS
 		O_ROM_DATA : out std_logic_vector(31 downto 0));
 END InstructionMemory;
 
-ARCHITECTURE InstructionMemory_1 of InstructionMemory is
+ARCHITECTURE Behavioral of InstructionMemory is
 
 --Define the type of ROM. It is an array of size 256.
 --Each element of the array is a one byte STD_LOGIC_VECTOR
@@ -36,28 +36,25 @@ begin
 		temp_mem(rom_count+2)   := to_stdlogicvector(temp_bv(23 downto 16));
 		temp_mem(rom_count+3)   := to_stdlogicvector(temp_bv(31 downto 24));
 		rom_count := rom_count + 4;
-		if rom_count  >= ROM_SIZE then
+		if rom_count  >= 255 then
 			exit;
 		end if;
-	       end loop;
+	 end loop;
 	       file_close(fp);
 	       return temp_mem;
     end function;
 -- call the function to initialize the ROM
 signal rom: rom_type := init_rom("Fibonacci.bin");
 
-	-- 2^32-1 x 32bit array to store the IM
-	type mem_type is array (natural range <>) of std_logic_vector(7 downto 0);
-	signal mem : mem_type(0 to 1023) := (others=> (others => '0'));
 
-	signal FullInstruction	: 		 std_logic_vector(31 downto 0); -- to merge the 4 memory bytes
-	signal IM_address			:      integer;
+	signal IM_address	: integer := 0 ;
 
 BEGIN
---
-	IM_address <= to_integer(unsigned(I_ROM_ADDR));-- when (to_integer(unsigned(I_ROM_ADDR)) >= 0) else 0;
-	FullInstruction <= mem(IM_address) & mem(IM_address+1) & mem(IM_address+2) & mem(IM_address+3)
-		               when (IM_address >= 0) else std_logic_vector(to_signed(-1,32));
-	O_ROM_DATA <= FullInstruction;
---
-END InstructionMemory_1;
+	process(I_ROM_EN) begin
+		if I_ROM_EN = '1' then 
+			IM_address <= to_integer(unsigned(I_ROM_ADDR));
+			O_ROM_DATA <= rom(IM_address) & rom(IM_address+1) & rom(IM_address+2) & rom(IM_address+3);
+				--when (IM_address >= 0) else std_logic_vector(to_signed(-1,32));
+		end if;
+	end process;
+END Behavioral;
