@@ -38,12 +38,17 @@ end PC;
 
 architecture Behavioral of PC is
 
+signal pc_prev : std_logic_vector (31 downto 0) := (others => '0') ;
+
 begin
 
 process(I_PC_UPDATE)
 begin
 	if I_PC_UPDATE = '1' then
-		O_PC <= I_PC ;
+		pc_prev <= I_PC ;
+		O_PC <= pc_prev;
+	else
+		O_PC <= pc_prev;
 	end if;
 
 end process;

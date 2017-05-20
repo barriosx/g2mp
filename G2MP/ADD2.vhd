@@ -38,7 +38,7 @@ entity ADD2 is
 end ADD2;
 
 architecture Behavioral of ADD2 is
- signal temp : std_logic_vector (32 downto 0); 
+ signal temp : std_logic_vector (31 downto 0); 
  
 begin
 		temp <= std_logic_vector ((unsigned(I_ADD2_A)) + (unsigned(I_ADD2_B(29 downto 0) & "00")));
