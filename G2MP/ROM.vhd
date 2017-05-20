@@ -53,7 +53,7 @@ BEGIN
 	process(I_ROM_EN) begin
 		if I_ROM_EN = '1' then 
 			IM_address <= to_integer(unsigned(I_ROM_ADDR));-- when (to_integer(unsigned(I_ROM_ADDR)) <= 1023) else 0;
-			O_ROM_DATA <= rom(IM_address) & rom(IM_address+1) & rom(IM_address+2) & rom(IM_address+3);-- when (IM_address >= 0) else std_logic_vector(to_signed(-1,32));
+			O_ROM_DATA <= rom(IM_address+3) & rom(IM_address+2) & rom(IM_address+1) & rom(IM_address);-- when (IM_address >= 0) else std_logic_vector(to_signed(-1,32));
 		end if;
 	end process;
 END Behavioral;
