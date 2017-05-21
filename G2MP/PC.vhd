@@ -42,14 +42,12 @@ signal pc_prev : std_logic_vector (31 downto 0) := (others => '0') ;
 
 begin
 
-process(I_PC_UPDATE)
+process(I_PC_UPDATE,I_PC)
 begin
 	if I_PC_UPDATE = '1' then
-		pc_prev <= I_PC ;
-		O_PC <= pc_prev;
-	else
-		O_PC <= pc_prev;
+		pc_prev<=I_PC;
 	end if;
+	O_PC <= pc_prev;
 
 end process;
 

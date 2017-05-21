@@ -51,10 +51,9 @@ begin
     begin
       if I_REG_EN = '1' AND I_REG_WE = '1' then
             registr(to_integer(unsigned(I_REG_SEL_RD)))<= I_REG_DATA_RD;        
-      else
-            O_REG_DATA_A <= registr(to_integer(unsigned(I_REG_SEL_RS)))(31 downto 0);
-            O_REG_DATA_B <= registr(to_integer(unsigned(I_REG_SEL_RT)))(31 downto 0);
       end if;
+      O_REG_DATA_A <= registr(to_integer(unsigned(I_REG_SEL_RS)))(31 downto 0);
+      O_REG_DATA_B <= registr(to_integer(unsigned(I_REG_SEL_RT)))(31 downto 0);
     end process;
 end Behavioral;
 

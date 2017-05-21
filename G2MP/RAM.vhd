@@ -47,12 +47,15 @@ architecture Behavioral of RAM is
 		signal Address: integer := 0;
 begin
 		
-		Address <= to_integer (unsigned(I_RAM_ADDR)) when (to_integer(unsigned(I_RAM_ADDR)) <= 1023) else 0;
-		ram(Address) <= I_RAM_DATA when (I_RAM_WE = '1' and I_RAM_EN ='0');
-		
-		with I_RAM_EN select
-		O_RAM_DATA <= 
-							ram(Address)  when '0',
-							(others => '0') when others;
+		process(I_RAM_EN,I_RAM_RE,I_RAM_WE,I_RAM_ADDR) begin
+			Address <= to_integer (unsigned(I_RAM_ADDR)); --when (to_integer(unsigned(I_RAM_ADDR)) <= 1023) else 0;
+			if(I_RAM_EN = '1') then 
+				if(I_RAM_WE = '1') then
+					ram(Address) <= I_RAM_DATA;
+				elsif(I_RAM_RE = '1') then 
+					O_RAM_DATA <= ram(Address);
+				end if;
+			end if;
+		end process;
 end Behavioral;
 

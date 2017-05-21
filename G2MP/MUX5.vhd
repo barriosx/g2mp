@@ -40,7 +40,7 @@ end MUX5;
 architecture Behavioral of MUX5 is
 
 begin
-	process(I_MUX_Sel)
+	process(I_MUX_Sel,I_MUX_1,I_MUX_0)
 	begin
 		if I_MUX_Sel = '1' then 
 			O_MUX_Out <= I_MUX_1;
