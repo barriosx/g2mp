@@ -1,22 +1,6 @@
-----------------------------------------------------------------------------------
--- Company: 
--- Engineer: 
--- 
--- Create Date:    16:31:12 05/15/2017 
--- Design Name: 
--- Module Name:    ADD2 - Behavioral 
--- Project Name: 
--- Target Devices: 
--- Tool versions: 
--- Description: 
---
--- Dependencies: 
---
--- Revision: 
--- Revision 0.01 - File Created
--- Additional Comments: 
---
-----------------------------------------------------------------------------------
+---- 
+--	Full 2Bit Adder
+----
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
@@ -38,12 +22,8 @@ entity ADD2 is
 end ADD2;
 
 architecture Behavioral of ADD2 is
- signal temp : std_logic_vector (31 downto 0); 
  
 begin
-		temp <= std_logic_vector ((unsigned(I_ADD2_A)) + (unsigned(I_ADD2_B(29 downto 0) & "00")));
-		
-		O_ADD2_Out <= temp (31 downto 0);
-		
+		O_ADD2_Out <= std_logic_vector ((unsigned(I_ADD2_A)) + (unsigned(I_ADD2_B(29 downto 0) & "00")));
 end Behavioral;
 

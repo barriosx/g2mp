@@ -1,22 +1,3 @@
-----------------------------------------------------------------------------------
--- Company: 
--- Engineer: 
--- 
--- Create Date:    22:18:03 05/11/2017 
--- Design Name: 
--- Module Name:    RAM - Behavioral 
--- Project Name: 
--- Target Devices: 
--- Tool versions: 
--- Description: 
---
--- Dependencies: 
---
--- Revision: 
--- Revision 0.01 - File Created
--- Additional Comments: 
---
-----------------------------------------------------------------------------------
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
@@ -41,19 +22,18 @@ entity RAM is
 end RAM;
 
 architecture Behavioral of RAM is
-
 		type ram_type is array (natural range <>) of std_logic_vector(31 downto 0);
-	   signal ram:     ram_type(0 to 1023) := (others=> (others => '0'));
-		signal Address: integer := 0;
+	    signal ramReg:     ram_type(0 to 1023) := (others=> (others => '0'));
+		signal addr: integer := 0;
 begin
 		
 		process(I_RAM_EN,I_RAM_RE,I_RAM_WE,I_RAM_ADDR) begin
-			Address <= to_integer (unsigned(I_RAM_ADDR)); --when (to_integer(unsigned(I_RAM_ADDR)) <= 1023) else 0;
+			addr <= to_integer (unsigned(I_RAM_ADDR)); --when (to_integer(unsigned(I_RAM_ADDR)) <= 1023) else 0;
 			if(I_RAM_EN = '1') then 
 				if(I_RAM_WE = '1') then
-					ram(Address) <= I_RAM_DATA;
+					ramReg(addr) <= I_RAM_DATA;
 				elsif(I_RAM_RE = '1') then 
-					O_RAM_DATA <= ram(Address);
+					O_RAM_DATA <= ramReg(addr);
 				end if;
 			end if;
 		end process;

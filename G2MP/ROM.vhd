@@ -4,14 +4,14 @@ use ieee.numeric_std.all;
 
 use std.textio.all;
 
-ENTITY InstructionMemory IS
+ENTITY ROM IS
 	port (
         I_ROM_EN : in STD_LOGIC;
 		I_ROM_ADDR : in  std_logic_vector(31 downto 0);
 		O_ROM_DATA : out std_logic_vector(31 downto 0));
-END InstructionMemory;
+END ROM;
 
-ARCHITECTURE Behavioral of InstructionMemory is
+ARCHITECTURE Behavioral of ROM is
 
 --Define the type of ROM. It is an array of size 256.
 --Each element of the array is a one byte STD_LOGIC_VECTOR
