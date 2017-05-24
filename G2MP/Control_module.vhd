@@ -93,7 +93,7 @@ begin
 				O_CTL_MemtoReg <= '0';
 				O_CTL_ALUOp <= "01";
 				O_CTL_MemWrite <= '0';
-				O_CTL_ALUSrc <= '1';
+				O_CTL_ALUSrc <= '0';
 				O_CTL_RegWrite	<=	'0';
 			end if;
 			

@@ -43,12 +43,12 @@ end RAM;
 architecture Behavioral of RAM is
 
 		type ram_type is array (natural range <>) of std_logic_vector(31 downto 0);
-	   signal ram:     ram_type(0 to 1023) := (others=> (others => '0'));
+	   signal ram:     ram_type(0 to 255) := (others=> (others => '0'));
 		signal Address: integer := 0;
 begin
 		
-		process(I_RAM_EN,I_RAM_RE,I_RAM_WE,I_RAM_ADDR) begin
-			Address <= to_integer (unsigned(I_RAM_ADDR)); --when (to_integer(unsigned(I_RAM_ADDR)) <= 1023) else 0;
+		process(I_RAM_EN,I_RAM_RE,I_RAM_WE,I_RAM_ADDR,I_RAM_DATA) begin
+			Address <= to_integer (unsigned(I_RAM_ADDR(7 downto 0))); -- offset for RAM address 
 			if(I_RAM_EN = '1') then 
 				if(I_RAM_WE = '1') then
 					ram(Address) <= I_RAM_DATA;

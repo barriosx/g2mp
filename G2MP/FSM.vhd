@@ -47,7 +47,7 @@ begin
 	process(I_FSM_CLK,I_FSM_EN,I_FSM_INST)
 	
 	begin
-	if (rising_edge(I_FSM_CLK) and I_FSM_EN='1') then 
+	if (rising_edge(I_FSM_CLK) and I_FSM_EN='1' AND I_FSM_INST /= x"00000000") then 
 		-- If the instruction out of the ROM is 0x0000 then we are done
 		if (I_FSM_INST = x"00000000") then
 			state <= "00000";	-- Done
